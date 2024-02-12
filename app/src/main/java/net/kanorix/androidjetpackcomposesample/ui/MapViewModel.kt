@@ -26,10 +26,6 @@ class MapViewModel : ViewModel() {
     fun onClickPlace(latLng: LatLng, context: Context) {
         Log.d(this.javaClass.toString(), "Marked point")
 
-        val filteredMarkers = uiState.value.markers.filter {
-            it.latitude != latLng.latitude || it.longitude != latLng.longitude
-        }
-
         addMarker(
             latitude = latLng.latitude,
             longitude = latLng.longitude,

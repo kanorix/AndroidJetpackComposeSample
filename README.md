@@ -21,15 +21,28 @@ ide.experimental.ui=true
 
 ## 機能
 
-- マップをクリックするとマーカーをさせる
-- マーカーを指した場所を一覧として見れる
+- マップをクリックするとマーカーをさせる(Map 画面)
+- マーカーを指した場所を一覧として見れる(List 画面)
+- AppBar のボタン(右上アイコン)クリックで画面切り替え
 - データの永続化は未実装
 
-- Map 画面
-  - ![image](https://github.com/kanorix/AndroidJetpackComposeSample/assets/57693055/6a9721e9-fdb8-4c4f-b60e-4d4bbeb6ea0c)
+### 画面
 
-- List 画面
-  - ![image](https://github.com/kanorix/AndroidJetpackComposeSample/assets/57693055/82ac2676-1d22-4b84-b086-542fc9131b98)
+<img src="images/map_screen.png" width="30%" />
+<img src="images/list_screen.png" width="30%" />
+
+### ディレクトリ構成
+
+```
+./
+├── ui/
+│  ├── ListScreen.kt ---> List画面を構築するComposable関数
+│  ├── MapScreen.kt ----> Map画面を構築するComposable関数
+│  ├── MapUiState.kt ---> Map/List画面で使用する状態を表すデータクラス
+│  └── MapViewModel.kt -> 画面からのイベントをもとに状態を変化させるクラス
+├── MainActivity.kt ----> 大元の画面(ここからMainScreenを呼び出している)
+└── MainScreen.kt ------> 画面の共通部分とルーティングを行うComposable関数
+```
 
 ## 勉強リンク
 
