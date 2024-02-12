@@ -26,9 +26,10 @@ ide.experimental.ui=true
 - データの永続化は未実装
 
 - Map 画面
-  - ![Map](images/map_screen.png)
+  - ![image](https://github.com/kanorix/AndroidJetpackComposeSample/assets/57693055/6a9721e9-fdb8-4c4f-b60e-4d4bbeb6ea0c)
+
 - List 画面
-  - ![List](images/list_screen.png)
+  - ![image](https://github.com/kanorix/AndroidJetpackComposeSample/assets/57693055/82ac2676-1d22-4b84-b086-542fc9131b98)
 
 ## 勉強リンク
 
