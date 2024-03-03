@@ -44,6 +44,15 @@ ide.experimental.ui=true
 └── MainScreen.kt ------> 画面の共通部分とルーティングを行うComposable関数
 ```
 
+### GoogleMap APIのAPI_KEYをセットする
+
+ルートディレクトリに`secrets.properties`というファイルを作成し以下のようにAPIのKEYを設定する
+("XXXXXXXX"のところにセットする)
+
+```properties
+MAPS_API_KEY=XXXXXXXX
+```
+
 ## 勉強リンク
 
 - Kotlin
