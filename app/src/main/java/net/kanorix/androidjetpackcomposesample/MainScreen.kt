@@ -1,5 +1,7 @@
 package net.kanorix.androidjetpackcomposesample
 
+import android.os.Bundle
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -10,6 +12,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -30,6 +33,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.logEvent
 import net.kanorix.androidjetpackcomposesample.ui.ListScreen
 import net.kanorix.androidjetpackcomposesample.ui.MapScreen
 import net.kanorix.androidjetpackcomposesample.ui.MapViewModel
@@ -59,6 +64,15 @@ fun App(
                     containerColor = MaterialTheme.colorScheme.primaryContainer
                 ),
                 actions = {
+                    // クラッシュさせる用のボタン
+                    IconButton(onClick = {
+                        navController.navigate("unknown")
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.Warning,
+                            contentDescription = "warning"
+                        )
+                    }
                     if (navController.previousBackStackEntry == null && currentScreen == Screen.Map) {
                         IconButton(onClick = { navController.navigate(Screen.List.name) }) {
                             Icon(imageVector = Icons.Filled.List, contentDescription = "list")
