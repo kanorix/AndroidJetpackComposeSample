@@ -4,6 +4,8 @@ import android.content.Context
 import android.location.Address
 import android.location.Geocoder
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -14,6 +16,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.util.Locale
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import net.kanorix.androidjetpackcomposesample.data.Args
+import net.kanorix.androidjetpackcomposesample.data.PatchRequest
+import net.kanorix.androidjetpackcomposesample.data.PostRequest
+import net.kanorix.androidjetpackcomposesample.data.PutRequest
+import retrofit2.HttpException
 
 val skyTree = LatLng(35.71011236307038, 139.8106637536605)
 
@@ -51,8 +60,8 @@ class MapViewModel : ViewModel() {
         context: Context,
     ) {
         // https://qiita.com/Tsubasa12/items/6f4a5e271e9e4f081182
-        val addresses: List<Address>? = Geocoder(context, Locale.JAPAN)
-            .getFromLocation(latitude, longitude, 1)
+        val addresses: List<Address>? =
+            Geocoder(context, Locale.JAPAN).getFromLocation(latitude, longitude, 1)
 
         Log.d(this.javaClass.toString(), addresses?.map { it.toString() }.toString())
 
@@ -70,6 +79,103 @@ class MapViewModel : ViewModel() {
                     currentMarker
                 )
             )
+        }
+    }
+
+    private val _args = MutableLiveData<Args>()
+    val args: LiveData<Args> = _args
+
+    fun sendGetRequest(value1: String, value2: String) {
+        viewModelScope.launch {
+            try {
+                val response = RetrofitInstance.api.get(value1, value2)
+                if (response.isSuccessful) {
+                    _args.value = response.body()?.args
+                    val responseBody = response.body()
+                    Log.d("MapViewModel", "成功: $responseBody")
+                } else {
+                    Log.e("MapViewModel", "HTTPエラー: ${response.code()}")
+                }
+            } catch (e: HttpException) {
+                Log.e("MapViewModel", "HTTPエラー: ${e.code()} ${e.message}")
+            } catch (e: Throwable) {
+                Log.e("MapViewModel", "エラー: ", e)
+            }
+        }
+    }
+
+    fun sendPostRequest(value1: String, value2: String) {
+        val postRequest = PostRequest(value1, value2)
+        viewModelScope.launch {
+            try {
+                val response = RetrofitInstance.api.post(postRequest)
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    Log.d("MapViewModel", "成功: $responseBody")
+                } else {
+                    Log.e("MapViewModel", "HTTPエラー: ${response.code()}")
+                }
+            } catch (e: HttpException) {
+                Log.e("MapViewModel", "HTTPエラー: ${e.code()} ${e.message}")
+            } catch (e: Throwable) {
+                Log.e("MapViewModel", "エラー: ", e)
+            }
+        }
+    }
+
+    fun sendPatchRequest(value1: String, value2: String) {
+        val patchRequest = PatchRequest(value1, value2)
+        viewModelScope.launch {
+            try {
+                val response = RetrofitInstance.api.patch(patchRequest)
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    Log.d("MapViewModel", "成功: $responseBody")
+                } else {
+                    Log.e("MapViewModel", "HTTPエラー: ${response.code()}")
+                }
+            } catch (e: HttpException) {
+                Log.e("MapViewModel", "HTTPエラー: ${e.code()} ${e.message}")
+            } catch (e: Throwable) {
+                Log.e("MapViewModel", "エラー: ", e)
+            }
+        }
+    }
+
+    fun sendPutRequest(value1: String, value2: String) {
+        val putRequest = PutRequest(value1, value2)
+        viewModelScope.launch {
+            try {
+                val response = RetrofitInstance.api.put(putRequest)
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    Log.d("MapViewModel", "成功: $responseBody")
+                } else {
+                    Log.e("MapViewModel", "HTTPエラー: ${response.code()}")
+                }
+            } catch (e: HttpException) {
+                Log.e("MapViewModel", "HTTPエラー: ${e.code()} ${e.message}")
+            } catch (e: Throwable) {
+                Log.e("MapViewModel", "エラー: ", e)
+            }
+        }
+    }
+
+    fun sendDeleteRequest() {
+        viewModelScope.launch {
+            try {
+                val response = RetrofitInstance.api.delete()
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    Log.d("MapViewModel", "成功: $responseBody")
+                } else {
+                    Log.e("MapViewModel", "HTTPエラー: ${response.code()}")
+                }
+            } catch (e: HttpException) {
+                Log.e("MapViewModel", "HTTPエラー: ${e.code()} ${e.message}")
+            } catch (e: Throwable) {
+                Log.e("MapViewModel", "エラー: ", e)
+            }
         }
     }
 }
