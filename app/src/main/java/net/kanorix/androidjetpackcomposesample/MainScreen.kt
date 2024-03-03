@@ -1,17 +1,14 @@
 package net.kanorix.androidjetpackcomposesample
 
-import android.os.Bundle
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.magnifier
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Place
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Send
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -20,12 +17,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -33,15 +28,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.logEvent
 import net.kanorix.androidjetpackcomposesample.ui.ListScreen
 import net.kanorix.androidjetpackcomposesample.ui.MapScreen
 import net.kanorix.androidjetpackcomposesample.ui.MapViewModel
 import net.kanorix.androidjetpackcomposesample.ui.RequestScreen
+import net.kanorix.androidjetpackcomposesample.ui.SearchDirectionScreen
 
 enum class Screen(val title: String) {
-    Map("Map Screen"), List("List Screen"), Request("Request Screen"),
+    Map("Map Screen"), List("List Screen"), Request("Request Screen"), TabletMap("Tablet Map Screen"),
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -88,12 +82,23 @@ fun App(
         bottomBar = {
             BottomAppBar(
                 actions = {
-                    IconButton(onClick = {
-                            navController.navigate(Screen.Request.name)
+                    if (currentScreen == Screen.Request) {
+                        IconButton(onClick = {
+                            navController.navigate(Screen.TabletMap.name)
                         },
-                        modifier = Modifier.padding(start = 10.dp)
-                    ) {
-                        Icon(Icons.Filled.Send, contentDescription = "request")
+                            modifier = Modifier.padding(start = 10.dp)
+                        ) {
+                            Icon(Icons.Filled.Search, contentDescription = "search")
+                        }
+                    } else {
+                        IconButton(
+                            onClick = {
+                                navController.navigate(Screen.Request.name)
+                            },
+                            modifier = Modifier.padding(start = 10.dp)
+                        ) {
+                            Icon(Icons.Filled.Send, contentDescription = "request")
+                        }
                     }
                 }
             )
@@ -115,6 +120,9 @@ fun App(
             }
             composable(route = Screen.Request.name) {
                 RequestScreen()
+            }
+            composable(route = Screen.TabletMap.name) {
+                SearchDirectionScreen()
             }
         }
     }
