@@ -3,13 +3,17 @@ package net.kanorix.androidjetpackcomposesample.ui
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder
+import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PointOfInterest
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.logEvent
 import com.google.maps.android.compose.CameraPositionState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -64,6 +68,14 @@ class MapViewModel : ViewModel() {
             Geocoder(context, Locale.JAPAN).getFromLocation(latitude, longitude, 1)
 
         Log.d(this.javaClass.toString(), addresses?.map { it.toString() }.toString())
+
+        // パラメーターを設定する
+        val params = Bundle()
+        params.putDouble("latitude", latitude)
+        params.putDouble("longitude", longitude)
+
+        // イベントをログに保存する
+        FirebaseAnalytics.getInstance(context).logEvent("add_maker", params)
 
         val address = addresses?.first()?.getAddressLine(0)!!.split("、")[1]
         val prefecture = addresses.first().adminArea ?: ""

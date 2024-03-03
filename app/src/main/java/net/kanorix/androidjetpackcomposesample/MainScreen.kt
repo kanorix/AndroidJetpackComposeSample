@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -57,6 +58,15 @@ fun App(
                     containerColor = MaterialTheme.colorScheme.primaryContainer
                 ),
                 actions = {
+                    // クラッシュさせる用のボタン
+                    IconButton(onClick = {
+                        navController.navigate("unknown")
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.Warning,
+                            contentDescription = "warning"
+                        )
+                    }
                     if (navController.previousBackStackEntry == null && currentScreen == Screen.Map) {
                         IconButton(onClick = { navController.navigate(Screen.List.name) }) {
                             Icon(imageVector = Icons.Filled.List, contentDescription = "list")

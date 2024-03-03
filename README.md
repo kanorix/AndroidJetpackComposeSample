@@ -23,13 +23,14 @@ ide.experimental.ui=true
 
 - マップをクリックするとマーカーをさせる(Map 画面)
 - マーカーを指した場所を一覧として見れる(List 画面)
-- AppBar のボタン(右上アイコン)クリックで画面切り替え
+- AppBarのボタン(右上アイコン)クリックで画面切り替え
+  - 警告マークは押下すると強制クラッシュ
 - データの永続化は未実装
 
 ### 画面
 
-<img src="images/map_screen.png" width="30%" />
-<img src="images/list_screen.png" width="30%" />
+<img alt="マップ画面" src="images/map_screen.png" width="30%" />
+<img alt="リスト画面" src="images/list_screen.png" width="30%" />
 
 ### ディレクトリ構成
 
@@ -44,7 +45,7 @@ ide.experimental.ui=true
 └── MainScreen.kt ------> 画面の共通部分とルーティングを行うComposable関数
 ```
 
-### GoogleMap APIのAPI_KEYをセットする
+### GoogleMap API設定
 
 ルートディレクトリに`secrets.properties`というファイルを作成し以下のようにAPIのKEYを設定する
 ("XXXXXXXX"のところにセットする)
@@ -52,6 +53,16 @@ ide.experimental.ui=true
 ```properties
 MAPS_API_KEY=XXXXXXXX
 ```
+
+### Firebase Analytics設定
+
+- [このリンク](https://firebase.google.com/docs/android/setup?hl=ja)に従ってFirebaseの設定をする
+  - Firebaseプロジェクトを作成
+  - プロジェクトにアプリを追加
+    - androidパッケージ名：`net.kanorix.androidjetpackcomposesample`
+    - 上記以外は省略可
+  - jsonファイルをDLし、ルートディレクトリに配置
+  - （必要な構成ファイルの設定等は完了済みなのでスキップ）
 
 ## 勉強リンク
 
